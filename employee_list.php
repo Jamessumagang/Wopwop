@@ -323,7 +323,15 @@ $result = $stmt->get_result();
         <div>New employee has been added successfully.</div>
     </div>
     <script>
-        setTimeout(function(){ var el = document.getElementById('added-toast'); if (el) el.remove(); }, 3000);
+        try {
+            if (localStorage.getItem('employeeDeleted') === '1') {
+                var elNow = document.getElementById('added-toast'); if (elNow) elNow.remove();
+            } else {
+                setTimeout(function(){ var el = document.getElementById('added-toast'); if (el) el.remove(); }, 3000);
+            }
+        } catch (e) {
+            setTimeout(function(){ var el = document.getElementById('added-toast'); if (el) el.remove(); }, 3000);
+        }
     </script>
 </div>
 <?php endif; ?>
@@ -485,6 +493,9 @@ document.querySelectorAll('form[data-delete-employee]')?.forEach(function(frm){
     });
 });
 </script>
+<script>
+// No post-reload deletion toast
+</script>
 </body>
 </html>
 <?php
@@ -492,3 +503,4 @@ document.querySelectorAll('form[data-delete-employee]')?.forEach(function(frm){
 // $count_stmt->close(); // Removed to prevent fatal error
 $conn->close();
 ?>
+
